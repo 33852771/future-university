@@ -1,0 +1,129 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FutureBright University</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+</head>
+
+<body>
+
+  <header>
+    <h1>FutureBright University</h1>
+    <nav>
+      <a href="#calculator">Fee Calculator</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero" data-aos="fade-up">
+    <h2>Your Future Starts Here</h2>
+    <p>Calculate your tuition and connect with our admissions team!</p>
+  </section>
+
+  <section id="calculator" data-aos="fade-up">
+    <h2>Tuition Fee Calculator</h2>
+    <form id="feeForm">
+      <label>
+        Program Type:
+        <select id="program">
+          <option value="undergrad">Undergraduate</option>
+          <option value="grad">Graduate</option>
+        </select>
+      </label>
+
+      <label>
+        Course Load:
+        <select id="load">
+          <option value="full">Full-Time</option>
+          <option value="part">Part-Time</option>
+        </select>
+      </label>
+
+      <label>
+        Residency:
+        <select id="residency">
+          <option value="local">Local</option>
+          <option value="international">International</option>
+        </select>
+      </label>
+
+      <button type="button" onclick="calculateFee()">Calculate</button>
+    </form>
+
+    <div id="result"></div>
+  </section>
+
+  <section id="contact" data-aos="fade-up">
+    <h2>Contact Admissions</h2>
+    <form id="contactForm">
+      <label>Name: <input type="text" name="name" required /></label>
+      <label>Email: <input type="email" name="email" required /></label>
+      <label>Message: <textarea name="message" required></textarea></label>
+      <button type="submit">Send</button>
+    </form>
+    <p id="formStatus"></p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 FutureBright University</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.4.1/dist/email.min.js"></script>
+  <script src="script.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+    emailjs.init("YOUR_EMAILJS_USER_ID"); // Replace with your EmailJS user ID
+  
+  </script>
+  <script>
+    function calculateFee() {
+  const program = document.getElementById("program").value;
+  const load = document.getElementById("load").value;
+  const residency = document.getElementById("residency").value;
+
+  let baseFee = 0;
+
+  if (program === "undergrad") {
+    baseFee = load === "full" ? 4000 : 2500;
+  } else {
+    baseFee = load === "full" ? 6000 : 3500;
+  }
+
+  if (residency === "international") {
+    baseFee *= 1.5;
+  }
+
+  document.getElementById("result").innerText =
+    "Estimated Tuition Fee: $" + baseFee.toFixed(2);
+}
+
+document.getElementById("contactForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const form = e.target;
+
+  emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form)
+    .then(() => {
+      document.getElementById("formStatus").innerText = "Message sent successfully!";
+      form.reset();
+    }, (error) => {
+      document.getElementById("formStatus").innerText = "Failed to send: " + error.text;
+    });
+});
+
+  </script>
+</body>
+</html>
+
+
+
+
+
+
